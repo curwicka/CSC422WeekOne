@@ -1,0 +1,34 @@
+package curwickACSC422WeekOne;
+
+public class Pet {
+	
+	String name;
+	int age;
+	
+	public Pet() {
+		
+	}
+	
+	// Pet object constructor
+	public Pet(String name, int age) {
+		this.name = name;
+		this.age = age;
+	}
+	
+	// Getter/Setter Methods
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setAge(int age) {
+		this.age = age;
+	}
+	
+	public int getAge() {
+		return age;
+	}
+}
