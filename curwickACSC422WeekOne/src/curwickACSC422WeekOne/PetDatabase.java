@@ -1,6 +1,8 @@
 package curwickACSC422WeekOne;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class PetDatabase {
 	
@@ -124,7 +126,54 @@ public class PetDatabase {
 	}
 	
 	public static void update() {
-		System.out.println("This function has not yet been written.");
+		int count = 0;
+		
+		// Header
+		System.out.println("+-------------------------+");
+		System.out.printf("| %-3s | %-10s | %-4s |%n", "ID", "NAME", "AGE");
+		System.out.println("+-------------------------+");
+		
+		// Loop through list
+		for(int i = 0; i < petList.size(); i++) {
+			int id = i;
+			String name = petList.get(i).name;
+			int age = petList.get(i).age;
+			count++;
+			
+			// Print formatted row
+			System.out.printf("| %-3d | %-10s | %-4d |%n", id, name, age);
+		}
+		
+		// Footer
+		System.out.println("+-------------------------+");
+		System.out.println(count + " rows in set.");
+		System.out.println("\n");
+		
+		// Prompt for pet to update
+		System.out.println("Enter the ID of the pet you want to update: ");
+		int selection = input.nextInt();
+		input.nextLine();
+		Pet updatePet = petList.get(selection);
+		String oldName = updatePet.getName();
+		int oldAge = updatePet.getAge();
+		
+		// Prompt for new pet data
+		System.out.println("Enter new name and age of pet: ");
+		String petData = input.nextLine();
+		
+		// Parse input
+		String[] splitter;
+		String delimiter = " ";
+		splitter = petData.split(delimiter);
+		String name = splitter[0];
+		int age = Integer.parseInt(splitter[1]);
+		
+		// Update Pet object
+		updatePet.setName(name);
+		updatePet.setAge(age);
+		
+		// Display changes
+		System.out.println(oldName + " " + oldAge + " changed to " + name + " " + age);
 	}
 	
 	public static void remove() {
