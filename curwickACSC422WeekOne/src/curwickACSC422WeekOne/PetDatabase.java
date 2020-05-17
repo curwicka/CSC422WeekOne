@@ -50,11 +50,11 @@ public class PetDatabase {
 					break;
 					
 				case 5:
-					searchName();
+					nameSearch();
 					break;
 					
 				case 6:
-					searchAge();
+					ageSearch();
 					break;
 					
 				case 7:
@@ -131,11 +131,62 @@ public class PetDatabase {
 		System.out.println("This function has not yet been written.");
 	}
 	
-	public static void searchName() {
-		System.out.println("This function has not yet been written.");
+	public static void nameSearch() {
+		System.out.println("Enter name to search: ");
+		String searchName = input.nextLine();
+		int count = 0;
+		
+		// Header
+		System.out.println("+-------------------------+");
+		System.out.printf("| %-3s | %-10s | %-4s |%n", "ID", "NAME", "AGE");
+		System.out.println("+-------------------------+");
+		
+		// Loop through list
+		for(int i = 0; i < petList.size(); i++) {
+			int id = i;
+			String name = petList.get(i).name;
+			int age = petList.get(i).age;
+			
+			if(name.equalsIgnoreCase(searchName)) {
+				// Print formatted row
+				System.out.printf("| %-3d | %-10s | %-4d |%n", id, name, age);
+				count++;
+			}
+		}
+		
+		// Footer
+		System.out.println("+-------------------------+");
+		System.out.println(count + " rows in set.");
+		System.out.println("\n");
 	}
 	
-	public static void searchAge() {
-		System.out.println("This function has not yet been written.");
+	public static void ageSearch() {
+		System.out.println("Enter age to search: ");
+		int searchAge = input.nextInt();
+		input.nextLine();
+		int count = 0;
+		
+		// Header
+		System.out.println("+-------------------------+");
+		System.out.printf("| %-3s | %-10s | %-4s |%n", "ID", "NAME", "AGE");
+		System.out.println("+-------------------------+");
+		
+		// Loop through list
+		for(int i = 0; i < petList.size(); i++) {
+			int id = i;
+			String name = petList.get(i).name;
+			int age = petList.get(i).age;
+			
+			if(age == searchAge) {
+				// Print formatted row
+				System.out.printf("| %-3d | %-10s | %-4d |%n", id, name, age);
+				count++;
+			}
+		}
+		
+		// Footer
+		System.out.println("+-------------------------+");
+		System.out.println(count + " rows in set.");
+		System.out.println("\n");
 	}
 }
