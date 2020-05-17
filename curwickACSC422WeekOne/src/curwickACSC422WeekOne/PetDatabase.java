@@ -177,7 +177,40 @@ public class PetDatabase {
 	}
 	
 	public static void remove() {
-		System.out.println("This function has not yet been written.");
+		int count = 0;
+		
+		// Header
+		System.out.println("+-------------------------+");
+		System.out.printf("| %-3s | %-10s | %-4s |%n", "ID", "NAME", "AGE");
+		System.out.println("+-------------------------+");
+		
+		// Loop through list
+		for(int i = 0; i < petList.size(); i++) {
+			int id = i;
+			String name = petList.get(i).name;
+			int age = petList.get(i).age;
+			count++;
+			
+			// Print formatted row
+			System.out.printf("| %-3d | %-10s | %-4d |%n", id, name, age);
+		}
+		
+		// Footer
+		System.out.println("+-------------------------+");
+		System.out.println(count + " rows in set.");
+		System.out.println("\n");
+		
+		// Prompt for pet to remove
+		System.out.println("Enter the ID of the pet you wish to remove: ");
+		int selection = input.nextInt();
+		input.nextLine();
+		Pet updatePet = petList.get(selection);
+		String name = updatePet.getName();
+		int age = updatePet.getAge();
+		
+		// Remove pet object from list
+		petList.remove(selection);
+		System.out.println(name + " " + age + " has been removed.");
 	}
 	
 	public static void nameSearch() {
