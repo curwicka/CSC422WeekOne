@@ -3,11 +3,12 @@ package curwickACSC422WeekOne;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.PrintWriter;
 
 public class PetDatabase {
 	
@@ -25,8 +26,12 @@ public class PetDatabase {
 			// Create file if it doesn't exist
 			FileOutputStream file = new FileOutputStream(fileName);
 			ObjectOutputStream out = new ObjectOutputStream(file);
+			
+			// Close output streams
+			out.close();
+			file.close();
 		} catch(IOException ex) {
-			System.out.println("IOException caught.");
+			System.out.println("IO exception caught.");
 		}
 		
 		// Program Start
@@ -86,6 +91,26 @@ public class PetDatabase {
 	
 	public static void display() {
 		int count = 0;
+		List<Pet> tempPetList = new ArrayList<Pet>();
+		
+		try {
+			// Input Streams for petDB.bin
+			FileInputStream file = new FileInputStream(fileName);
+			ObjectInputStream objInput = new ObjectInputStream(file);
+			
+			// Read petList from petDB.bin and assign to temp list
+			tempPetList = (ArrayList<Pet>) objInput.readObject();
+			
+			// Close input streams
+			objInput.close();
+			file.close();
+		} catch(IOException ex) {
+			System.out.println("IOException caught.");
+			ex.printStackTrace();
+		} catch(ClassNotFoundException ex) {
+			System.out.println("ClassNotFoundException caught.");
+			ex.printStackTrace();
+		}
 		
 		// Header
 		System.out.println("+-------------------------+");
@@ -93,10 +118,10 @@ public class PetDatabase {
 		System.out.println("+-------------------------+");
 		
 		// Loop through list
-		for(int i = 0; i < petList.size(); i++) {
+		for(int i = 0; i < tempPetList.size(); i++) {
 			int id = i;
-			String name = petList.get(i).name;
-			int age = petList.get(i).age;
+			String name = tempPetList.get(i).name;
+			int age = tempPetList.get(i).age;
 			count++;
 			
 			// Print formatted row
@@ -136,6 +161,26 @@ public class PetDatabase {
 			else {
 				break;
 			}
+		}
+		
+		try {
+			// Clear contents of file to write new data
+			PrintWriter writer = new PrintWriter(fileName);
+			writer.close();
+			
+			// Output Streams for petDB.bin file
+			FileOutputStream file = new FileOutputStream(fileName);
+			ObjectOutputStream output = new ObjectOutputStream(file);
+			
+			// Write list to petDB.bin
+			output.writeObject(petList);
+			
+			// Close output streams
+			output.close();
+			file.close();
+		} catch(IOException ex) {
+			System.out.println("IO exception caught.");
+			ex.printStackTrace();
 		}
 	}
 	
