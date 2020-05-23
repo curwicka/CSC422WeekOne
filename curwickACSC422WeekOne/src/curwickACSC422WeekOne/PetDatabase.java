@@ -3,17 +3,41 @@ package curwickACSC422WeekOne;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 
 public class PetDatabase {
 	
 	// Class Variables
 	public static Scanner input = new Scanner(System.in);
 	public static List<Pet> petList = new ArrayList<Pet>();
+	public static String fileName = "petDB.bin";
 	
 	public static void main(String[] args) {
 		// Method Variables
 		int selection;
 		boolean exit = false;
+		File petDB = new File(fileName);
+		
+		// Check if file exists before creating file
+		if(!petDB.exists()) {
+			try {
+				// Create file if it doesn't exist
+				FileOutputStream file = new FileOutputStream(fileName);
+				ObjectOutputStream out = new ObjectOutputStream(file);
+				
+				// Close output streams
+				out.close();
+				file.close();
+			} catch(IOException ex) {
+				System.out.println("IO exception caught.");
+			}
+		}
 		
 		// Program Start
 		System.out.println("Pet Database Program");
@@ -72,6 +96,32 @@ public class PetDatabase {
 	
 	public static void display() {
 		int count = 0;
+		List<Pet> tempPetList = new ArrayList<Pet>();
+		
+		try {
+			// Input Streams for petDB.bin
+			FileInputStream file = new FileInputStream(fileName);
+			ObjectInputStream objInput = new ObjectInputStream(file);
+			
+			// Read petList from petDB.bin and assign to temp list
+			tempPetList = (ArrayList<Pet>) objInput.readObject();
+			
+			// Loop through tempPetList, cast all objects to Pet, add to new displayList
+			for(int i =0; i < tempPetList.size(); i++) {
+				Pet pet = (Pet) tempPetList.get(i);
+				tempPetList.set(i, pet);
+			}
+			
+			// Close input streams
+			objInput.close();
+			file.close();
+		} catch(IOException ex) {
+			System.out.println("IOException caught.");
+			ex.printStackTrace();
+		} catch(ClassNotFoundException ex) {
+			System.out.println("ClassNotFoundException caught.");
+			ex.printStackTrace();
+		}
 		
 		// Header
 		System.out.println("+-------------------------+");
@@ -79,10 +129,10 @@ public class PetDatabase {
 		System.out.println("+-------------------------+");
 		
 		// Loop through list
-		for(int i = 0; i < petList.size(); i++) {
+		for(int i = 0; i < tempPetList.size(); i++) {
 			int id = i;
-			String name = petList.get(i).name;
-			int age = petList.get(i).age;
+			String name = tempPetList.get(i).name;
+			int age = tempPetList.get(i).age;
 			count++;
 			
 			// Print formatted row
@@ -123,10 +173,56 @@ public class PetDatabase {
 				break;
 			}
 		}
+		
+		try {
+			// Clear contents of file to write new data
+			PrintWriter writer = new PrintWriter(fileName);
+			writer.close();
+			
+			// Output Streams for petDB.bin file
+			FileOutputStream file = new FileOutputStream(fileName);
+			ObjectOutputStream output = new ObjectOutputStream(file);
+			
+			// Write list to petDB.bin
+			output.writeObject(petList);
+			
+			// Close output streams
+			output.close();
+			file.close();
+		} catch(IOException ex) {
+			System.out.println("IO exception caught.");
+			ex.printStackTrace();
+		}
 	}
 	
 	public static void update() {
 		int count = 0;
+		List<Pet> tempPetList = new ArrayList<Pet>();
+		
+		try {
+			// Input Streams for petDB.bin
+			FileInputStream file = new FileInputStream(fileName);
+			ObjectInputStream objInput = new ObjectInputStream(file);
+			
+			// Read petList from petDB.bin and assign to temp list
+			tempPetList = (ArrayList<Pet>) objInput.readObject();
+			
+			// Loop through tempPetList, cast all objects to Pet, add to new displayList
+			for(int i =0; i < tempPetList.size(); i++) {
+				Pet pet = (Pet) tempPetList.get(i);
+				tempPetList.set(i, pet);
+			}
+			
+			// Close input streams
+			objInput.close();
+			file.close();
+		} catch(IOException ex) {
+			System.out.println("IOException caught.");
+			ex.printStackTrace();
+		} catch(ClassNotFoundException ex) {
+			System.out.println("ClassNotFoundException caught.");
+			ex.printStackTrace();
+		}
 		
 		// Header
 		System.out.println("+-------------------------+");
@@ -134,10 +230,10 @@ public class PetDatabase {
 		System.out.println("+-------------------------+");
 		
 		// Loop through list
-		for(int i = 0; i < petList.size(); i++) {
+		for(int i = 0; i < tempPetList.size(); i++) {
 			int id = i;
-			String name = petList.get(i).name;
-			int age = petList.get(i).age;
+			String name = tempPetList.get(i).name;
+			int age = tempPetList.get(i).age;
 			count++;
 			
 			// Print formatted row
@@ -153,7 +249,7 @@ public class PetDatabase {
 		System.out.println("Enter the ID of the pet you want to update: ");
 		int selection = input.nextInt();
 		input.nextLine();
-		Pet updatePet = petList.get(selection);
+		Pet updatePet = tempPetList.get(selection);
 		String oldName = updatePet.getName();
 		int oldAge = updatePet.getAge();
 		
@@ -174,10 +270,56 @@ public class PetDatabase {
 		
 		// Display changes
 		System.out.println(oldName + " " + oldAge + " changed to " + name + " " + age);
+		
+		try {
+			// Clear contents of file to write new data
+			PrintWriter writer = new PrintWriter(fileName);
+			writer.close();
+			
+			// Output Streams for petDB.bin file
+			FileOutputStream file = new FileOutputStream(fileName);
+			ObjectOutputStream output = new ObjectOutputStream(file);
+			
+			// Write list to petDB.bin
+			output.writeObject(tempPetList);
+			
+			// Close output streams
+			output.close();
+			file.close();
+		} catch(IOException ex) {
+			System.out.println("IO exception caught.");
+			ex.printStackTrace();
+		}
 	}
 	
 	public static void remove() {
 		int count = 0;
+		List<Pet> tempPetList = new ArrayList<Pet>();
+		
+		try {
+			// Input Streams for petDB.bin
+			FileInputStream file = new FileInputStream(fileName);
+			ObjectInputStream objInput = new ObjectInputStream(file);
+			
+			// Read petList from petDB.bin and assign to temp list
+			tempPetList = (ArrayList<Pet>) objInput.readObject();
+			
+			// Loop through tempPetList, cast all objects to Pet, add to new displayList
+			for(int i =0; i < tempPetList.size(); i++) {
+				Pet pet = (Pet) tempPetList.get(i);
+				tempPetList.set(i, pet);
+			}
+			
+			// Close input streams
+			objInput.close();
+			file.close();
+		} catch(IOException ex) {
+			System.out.println("IOException caught.");
+			ex.printStackTrace();
+		} catch(ClassNotFoundException ex) {
+			System.out.println("ClassNotFoundException caught.");
+			ex.printStackTrace();
+		}
 		
 		// Header
 		System.out.println("+-------------------------+");
@@ -185,10 +327,10 @@ public class PetDatabase {
 		System.out.println("+-------------------------+");
 		
 		// Loop through list
-		for(int i = 0; i < petList.size(); i++) {
+		for(int i = 0; i < tempPetList.size(); i++) {
 			int id = i;
-			String name = petList.get(i).name;
-			int age = petList.get(i).age;
+			String name = tempPetList.get(i).name;
+			int age = tempPetList.get(i).age;
 			count++;
 			
 			// Print formatted row
@@ -204,16 +346,64 @@ public class PetDatabase {
 		System.out.println("Enter the ID of the pet you wish to remove: ");
 		int selection = input.nextInt();
 		input.nextLine();
-		Pet updatePet = petList.get(selection);
+		Pet updatePet = tempPetList.get(selection);
 		String name = updatePet.getName();
 		int age = updatePet.getAge();
 		
 		// Remove pet object from list
-		petList.remove(selection);
+		tempPetList.remove(selection);
 		System.out.println(name + " " + age + " has been removed.");
+		
+		try {
+			// Clear contents of file to write new data
+			PrintWriter writer = new PrintWriter(fileName);
+			writer.close();
+			
+			// Output Streams for petDB.bin file
+			FileOutputStream file = new FileOutputStream(fileName);
+			ObjectOutputStream output = new ObjectOutputStream(file);
+			
+			// Write list to petDB.bin
+			output.writeObject(tempPetList);
+			
+			// Close output streams
+			output.close();
+			file.close();
+		} catch(IOException ex) {
+			System.out.println("IO exception caught.");
+			ex.printStackTrace();
+		}
 	}
 	
 	public static void nameSearch() {
+		List<Pet> tempPetList = new ArrayList<Pet>();
+		
+		try {
+			// Input Streams for petDB.bin
+			FileInputStream file = new FileInputStream(fileName);
+			ObjectInputStream objInput = new ObjectInputStream(file);
+			
+			// Read petList from petDB.bin and assign to temp list
+			tempPetList = (ArrayList<Pet>) objInput.readObject();
+			
+			// Loop through tempPetList, cast all objects to Pet, add to new displayList
+			for(int i =0; i < tempPetList.size(); i++) {
+				Pet pet = (Pet) tempPetList.get(i);
+				tempPetList.set(i, pet);
+			}
+			
+			// Close input streams
+			objInput.close();
+			file.close();
+		} catch(IOException ex) {
+			System.out.println("IOException caught.");
+			ex.printStackTrace();
+		} catch(ClassNotFoundException ex) {
+			System.out.println("ClassNotFoundException caught.");
+			ex.printStackTrace();
+		}
+		
+		// Prompt for search parameter
 		System.out.println("Enter name to search: ");
 		String searchName = input.nextLine();
 		int count = 0;
@@ -224,10 +414,10 @@ public class PetDatabase {
 		System.out.println("+-------------------------+");
 		
 		// Loop through list
-		for(int i = 0; i < petList.size(); i++) {
+		for(int i = 0; i < tempPetList.size(); i++) {
 			int id = i;
-			String name = petList.get(i).name;
-			int age = petList.get(i).age;
+			String name = tempPetList.get(i).name;
+			int age = tempPetList.get(i).age;
 			
 			if(name.equalsIgnoreCase(searchName)) {
 				// Print formatted row
@@ -243,6 +433,34 @@ public class PetDatabase {
 	}
 	
 	public static void ageSearch() {
+		List<Pet> tempPetList = new ArrayList<Pet>();
+		
+		try {
+			// Input Streams for petDB.bin
+			FileInputStream file = new FileInputStream(fileName);
+			ObjectInputStream objInput = new ObjectInputStream(file);
+			
+			// Read petList from petDB.bin and assign to temp list
+			tempPetList = (ArrayList<Pet>) objInput.readObject();
+			
+			// Loop through tempPetList, cast all objects to Pet, add to new displayList
+			for(int i =0; i < tempPetList.size(); i++) {
+				Pet pet = (Pet) tempPetList.get(i);
+				tempPetList.set(i, pet);
+			}
+			
+			// Close input streams
+			objInput.close();
+			file.close();
+		} catch(IOException ex) {
+			System.out.println("IOException caught.");
+			ex.printStackTrace();
+		} catch(ClassNotFoundException ex) {
+			System.out.println("ClassNotFoundException caught.");
+			ex.printStackTrace();
+		}
+		
+		// Prompt for search parameter
 		System.out.println("Enter age to search: ");
 		int searchAge = input.nextInt();
 		input.nextLine();
@@ -254,10 +472,10 @@ public class PetDatabase {
 		System.out.println("+-------------------------+");
 		
 		// Loop through list
-		for(int i = 0; i < petList.size(); i++) {
+		for(int i = 0; i < tempPetList.size(); i++) {
 			int id = i;
-			String name = petList.get(i).name;
-			int age = petList.get(i).age;
+			String name = tempPetList.get(i).name;
+			int age = tempPetList.get(i).age;
 			
 			if(age == searchAge) {
 				// Print formatted row
