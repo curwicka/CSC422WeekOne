@@ -1,7 +1,5 @@
 package curwickACSC422WeekOne;
 
-import java.io.*;
-
 public class Pet implements java.io.Serializable {
 	
 	String name;
