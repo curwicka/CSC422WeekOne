@@ -433,6 +433,34 @@ public class PetDatabase {
 	}
 	
 	public static void ageSearch() {
+		List<Pet> tempPetList = new ArrayList<Pet>();
+		
+		try {
+			// Input Streams for petDB.bin
+			FileInputStream file = new FileInputStream(fileName);
+			ObjectInputStream objInput = new ObjectInputStream(file);
+			
+			// Read petList from petDB.bin and assign to temp list
+			tempPetList = (ArrayList<Pet>) objInput.readObject();
+			
+			// Loop through tempPetList, cast all objects to Pet, add to new displayList
+			for(int i =0; i < tempPetList.size(); i++) {
+				Pet pet = (Pet) tempPetList.get(i);
+				tempPetList.set(i, pet);
+			}
+			
+			// Close input streams
+			objInput.close();
+			file.close();
+		} catch(IOException ex) {
+			System.out.println("IOException caught.");
+			ex.printStackTrace();
+		} catch(ClassNotFoundException ex) {
+			System.out.println("ClassNotFoundException caught.");
+			ex.printStackTrace();
+		}
+		
+		// Prompt for search parameter
 		System.out.println("Enter age to search: ");
 		int searchAge = input.nextInt();
 		input.nextLine();
@@ -444,10 +472,10 @@ public class PetDatabase {
 		System.out.println("+-------------------------+");
 		
 		// Loop through list
-		for(int i = 0; i < petList.size(); i++) {
+		for(int i = 0; i < tempPetList.size(); i++) {
 			int id = i;
-			String name = petList.get(i).name;
-			int age = petList.get(i).age;
+			String name = tempPetList.get(i).name;
+			int age = tempPetList.get(i).age;
 			
 			if(age == searchAge) {
 				// Print formatted row
