@@ -294,6 +294,32 @@ public class PetDatabase {
 	
 	public static void remove() {
 		int count = 0;
+		List<Pet> tempPetList = new ArrayList<Pet>();
+		
+		try {
+			// Input Streams for petDB.bin
+			FileInputStream file = new FileInputStream(fileName);
+			ObjectInputStream objInput = new ObjectInputStream(file);
+			
+			// Read petList from petDB.bin and assign to temp list
+			tempPetList = (ArrayList<Pet>) objInput.readObject();
+			
+			// Loop through tempPetList, cast all objects to Pet, add to new displayList
+			for(int i =0; i < tempPetList.size(); i++) {
+				Pet pet = (Pet) tempPetList.get(i);
+				tempPetList.set(i, pet);
+			}
+			
+			// Close input streams
+			objInput.close();
+			file.close();
+		} catch(IOException ex) {
+			System.out.println("IOException caught.");
+			ex.printStackTrace();
+		} catch(ClassNotFoundException ex) {
+			System.out.println("ClassNotFoundException caught.");
+			ex.printStackTrace();
+		}
 		
 		// Header
 		System.out.println("+-------------------------+");
@@ -301,10 +327,10 @@ public class PetDatabase {
 		System.out.println("+-------------------------+");
 		
 		// Loop through list
-		for(int i = 0; i < petList.size(); i++) {
+		for(int i = 0; i < tempPetList.size(); i++) {
 			int id = i;
-			String name = petList.get(i).name;
-			int age = petList.get(i).age;
+			String name = tempPetList.get(i).name;
+			int age = tempPetList.get(i).age;
 			count++;
 			
 			// Print formatted row
@@ -320,13 +346,33 @@ public class PetDatabase {
 		System.out.println("Enter the ID of the pet you wish to remove: ");
 		int selection = input.nextInt();
 		input.nextLine();
-		Pet updatePet = petList.get(selection);
+		Pet updatePet = tempPetList.get(selection);
 		String name = updatePet.getName();
 		int age = updatePet.getAge();
 		
 		// Remove pet object from list
-		petList.remove(selection);
+		tempPetList.remove(selection);
 		System.out.println(name + " " + age + " has been removed.");
+		
+		try {
+			// Clear contents of file to write new data
+			PrintWriter writer = new PrintWriter(fileName);
+			writer.close();
+			
+			// Output Streams for petDB.bin file
+			FileOutputStream file = new FileOutputStream(fileName);
+			ObjectOutputStream output = new ObjectOutputStream(file);
+			
+			// Write list to petDB.bin
+			output.writeObject(tempPetList);
+			
+			// Close output streams
+			output.close();
+			file.close();
+		} catch(IOException ex) {
+			System.out.println("IO exception caught.");
+			ex.printStackTrace();
+		}
 	}
 	
 	public static void nameSearch() {
