@@ -1,6 +1,6 @@
 package curwickACSC422WeekOne;
 
-public class Pet {
+public class Pet implements java.io.Serializable {
 	
 	String name;
 	int age;
