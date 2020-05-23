@@ -3,17 +3,31 @@ package curwickACSC422WeekOne;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 public class PetDatabase {
 	
 	// Class Variables
 	public static Scanner input = new Scanner(System.in);
 	public static List<Pet> petList = new ArrayList<Pet>();
+	public static String fileName = "petDB.bin";
 	
 	public static void main(String[] args) {
 		// Method Variables
 		int selection;
 		boolean exit = false;
+		
+		try {
+			// Create file if it doesn't exist
+			FileOutputStream file = new FileOutputStream(fileName);
+			ObjectOutputStream out = new ObjectOutputStream(file);
+		} catch(IOException ex) {
+			System.out.println("IOException caught.");
+		}
 		
 		// Program Start
 		System.out.println("Pet Database Program");
