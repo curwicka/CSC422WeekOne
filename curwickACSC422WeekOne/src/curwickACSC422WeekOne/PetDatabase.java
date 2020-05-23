@@ -3,6 +3,7 @@ package curwickACSC422WeekOne;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -21,17 +22,21 @@ public class PetDatabase {
 		// Method Variables
 		int selection;
 		boolean exit = false;
+		File petDB = new File(fileName);
 		
-		try {
-			// Create file if it doesn't exist
-			FileOutputStream file = new FileOutputStream(fileName);
-			ObjectOutputStream out = new ObjectOutputStream(file);
-			
-			// Close output streams
-			out.close();
-			file.close();
-		} catch(IOException ex) {
-			System.out.println("IO exception caught.");
+		// Check if file exists before creating file
+		if(!petDB.exists()) {
+			try {
+				// Create file if it doesn't exist
+				FileOutputStream file = new FileOutputStream(fileName);
+				ObjectOutputStream out = new ObjectOutputStream(file);
+				
+				// Close output streams
+				out.close();
+				file.close();
+			} catch(IOException ex) {
+				System.out.println("IO exception caught.");
+			}
 		}
 		
 		// Program Start
@@ -100,6 +105,12 @@ public class PetDatabase {
 			
 			// Read petList from petDB.bin and assign to temp list
 			tempPetList = (ArrayList<Pet>) objInput.readObject();
+			
+			// Loop through tempPetList, cast all objects to Pet, add to new displayList
+			for(int i =0; i < tempPetList.size(); i++) {
+				Pet pet = (Pet) tempPetList.get(i);
+				tempPetList.set(i, pet);
+			}
 			
 			// Close input streams
 			objInput.close();
