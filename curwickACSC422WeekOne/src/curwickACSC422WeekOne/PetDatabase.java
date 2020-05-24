@@ -60,30 +60,37 @@ public class PetDatabase {
 			// Switch Statement Menu Selection
 			switch(selection) {
 				case 1:
+					// View pets
 					display();
 					break;
 					
 				case 2: 
+					// Add pets
 					add();
 					break;
 				
 				case 3:
+					// Update pets
 					update();
 					break;
 					
 				case 4:
+					// Remove pets
 					remove();
 					break;
 					
 				case 5:
+					// Search pets by name
 					nameSearch();
 					break;
 					
 				case 6:
+					// Search pets by age
 					ageSearch();
 					break;
 					
 				case 7:
+					// Exit program
 					System.out.println("Good-bye!");
 					exit = true;
 					break;
@@ -94,9 +101,11 @@ public class PetDatabase {
 		}
 	}
 	
+	/*********************************
+	 * Display pets in formatted table
+	 *********************************/
 	public static void display() {
 		int count = 0;
-		List<Pet> tempPetList = new ArrayList<Pet>();
 		
 		try {
 			// Input Streams for petDB.bin
@@ -104,12 +113,12 @@ public class PetDatabase {
 			ObjectInputStream objInput = new ObjectInputStream(file);
 			
 			// Read petList from petDB.bin and assign to temp list
-			tempPetList = (ArrayList<Pet>) objInput.readObject();
+			petList = (ArrayList<Pet>) objInput.readObject();
 			
 			// Loop through tempPetList, cast all objects to Pet, add to new displayList
-			for(int i =0; i < tempPetList.size(); i++) {
-				Pet pet = (Pet) tempPetList.get(i);
-				tempPetList.set(i, pet);
+			for(int i =0; i < petList.size(); i++) {
+				Pet pet = (Pet) petList.get(i);
+				petList.set(i, pet);
 			}
 			
 			// Close input streams
@@ -129,10 +138,10 @@ public class PetDatabase {
 		System.out.println("+-------------------------+");
 		
 		// Loop through list
-		for(int i = 0; i < tempPetList.size(); i++) {
+		for(int i = 0; i < petList.size(); i++) {
 			int id = i;
-			String name = tempPetList.get(i).name;
-			int age = tempPetList.get(i).age;
+			String name = petList.get(i).name;
+			int age = petList.get(i).age;
 			count++;
 			
 			// Print formatted row
@@ -145,6 +154,9 @@ public class PetDatabase {
 		System.out.println("\n");
 	}
 	
+	/**********************
+	 * Add pets to database
+	 **********************/
 	public static void add() {
 		String petData = "";
 		String name;
@@ -195,9 +207,11 @@ public class PetDatabase {
 		}
 	}
 	
+	/*****************
+	 * Update pet data
+	 *****************/
 	public static void update() {
 		int count = 0;
-		List<Pet> tempPetList = new ArrayList<Pet>();
 		
 		try {
 			// Input Streams for petDB.bin
@@ -205,12 +219,12 @@ public class PetDatabase {
 			ObjectInputStream objInput = new ObjectInputStream(file);
 			
 			// Read petList from petDB.bin and assign to temp list
-			tempPetList = (ArrayList<Pet>) objInput.readObject();
+			petList = (ArrayList<Pet>) objInput.readObject();
 			
 			// Loop through tempPetList, cast all objects to Pet, add to new displayList
-			for(int i =0; i < tempPetList.size(); i++) {
-				Pet pet = (Pet) tempPetList.get(i);
-				tempPetList.set(i, pet);
+			for(int i =0; i < petList.size(); i++) {
+				Pet pet = (Pet) petList.get(i);
+				petList.set(i, pet);
 			}
 			
 			// Close input streams
@@ -230,10 +244,10 @@ public class PetDatabase {
 		System.out.println("+-------------------------+");
 		
 		// Loop through list
-		for(int i = 0; i < tempPetList.size(); i++) {
+		for(int i = 0; i < petList.size(); i++) {
 			int id = i;
-			String name = tempPetList.get(i).name;
-			int age = tempPetList.get(i).age;
+			String name = petList.get(i).name;
+			int age = petList.get(i).age;
 			count++;
 			
 			// Print formatted row
@@ -249,7 +263,7 @@ public class PetDatabase {
 		System.out.println("Enter the ID of the pet you want to update: ");
 		int selection = input.nextInt();
 		input.nextLine();
-		Pet updatePet = tempPetList.get(selection);
+		Pet updatePet = petList.get(selection);
 		String oldName = updatePet.getName();
 		int oldAge = updatePet.getAge();
 		
@@ -281,7 +295,7 @@ public class PetDatabase {
 			ObjectOutputStream output = new ObjectOutputStream(file);
 			
 			// Write list to petDB.bin
-			output.writeObject(tempPetList);
+			output.writeObject(petList);
 			
 			// Close output streams
 			output.close();
@@ -292,22 +306,24 @@ public class PetDatabase {
 		}
 	}
 	
+	/**************************
+	 * Remove pet from database
+	 **************************/
 	public static void remove() {
 		int count = 0;
-		List<Pet> tempPetList = new ArrayList<Pet>();
-		
+
 		try {
 			// Input Streams for petDB.bin
 			FileInputStream file = new FileInputStream(fileName);
 			ObjectInputStream objInput = new ObjectInputStream(file);
 			
 			// Read petList from petDB.bin and assign to temp list
-			tempPetList = (ArrayList<Pet>) objInput.readObject();
+			petList = (ArrayList<Pet>) objInput.readObject();
 			
 			// Loop through tempPetList, cast all objects to Pet, add to new displayList
-			for(int i =0; i < tempPetList.size(); i++) {
-				Pet pet = (Pet) tempPetList.get(i);
-				tempPetList.set(i, pet);
+			for(int i =0; i < petList.size(); i++) {
+				Pet pet = (Pet) petList.get(i);
+				petList.set(i, pet);
 			}
 			
 			// Close input streams
@@ -327,10 +343,10 @@ public class PetDatabase {
 		System.out.println("+-------------------------+");
 		
 		// Loop through list
-		for(int i = 0; i < tempPetList.size(); i++) {
+		for(int i = 0; i < petList.size(); i++) {
 			int id = i;
-			String name = tempPetList.get(i).name;
-			int age = tempPetList.get(i).age;
+			String name = petList.get(i).name;
+			int age = petList.get(i).age;
 			count++;
 			
 			// Print formatted row
@@ -346,12 +362,12 @@ public class PetDatabase {
 		System.out.println("Enter the ID of the pet you wish to remove: ");
 		int selection = input.nextInt();
 		input.nextLine();
-		Pet updatePet = tempPetList.get(selection);
+		Pet updatePet = petList.get(selection);
 		String name = updatePet.getName();
 		int age = updatePet.getAge();
 		
 		// Remove pet object from list
-		tempPetList.remove(selection);
+		petList.remove(selection);
 		System.out.println(name + " " + age + " has been removed.");
 		
 		try {
@@ -364,7 +380,7 @@ public class PetDatabase {
 			ObjectOutputStream output = new ObjectOutputStream(file);
 			
 			// Write list to petDB.bin
-			output.writeObject(tempPetList);
+			output.writeObject(petList);
 			
 			// Close output streams
 			output.close();
@@ -375,21 +391,22 @@ public class PetDatabase {
 		}
 	}
 	
+	/*********************
+	 * Search pets by name
+	 *********************/
 	public static void nameSearch() {
-		List<Pet> tempPetList = new ArrayList<Pet>();
-		
 		try {
 			// Input Streams for petDB.bin
 			FileInputStream file = new FileInputStream(fileName);
 			ObjectInputStream objInput = new ObjectInputStream(file);
 			
 			// Read petList from petDB.bin and assign to temp list
-			tempPetList = (ArrayList<Pet>) objInput.readObject();
+			petList = (ArrayList<Pet>) objInput.readObject();
 			
 			// Loop through tempPetList, cast all objects to Pet, add to new displayList
-			for(int i =0; i < tempPetList.size(); i++) {
-				Pet pet = (Pet) tempPetList.get(i);
-				tempPetList.set(i, pet);
+			for(int i =0; i < petList.size(); i++) {
+				Pet pet = (Pet) petList.get(i);
+				petList.set(i, pet);
 			}
 			
 			// Close input streams
@@ -414,10 +431,10 @@ public class PetDatabase {
 		System.out.println("+-------------------------+");
 		
 		// Loop through list
-		for(int i = 0; i < tempPetList.size(); i++) {
+		for(int i = 0; i < petList.size(); i++) {
 			int id = i;
-			String name = tempPetList.get(i).name;
-			int age = tempPetList.get(i).age;
+			String name = petList.get(i).name;
+			int age = petList.get(i).age;
 			
 			if(name.equalsIgnoreCase(searchName)) {
 				// Print formatted row
@@ -432,21 +449,22 @@ public class PetDatabase {
 		System.out.println("\n");
 	}
 	
+	/********************
+	 * Search pets by age
+	 ********************/
 	public static void ageSearch() {
-		List<Pet> tempPetList = new ArrayList<Pet>();
-		
 		try {
 			// Input Streams for petDB.bin
 			FileInputStream file = new FileInputStream(fileName);
 			ObjectInputStream objInput = new ObjectInputStream(file);
 			
 			// Read petList from petDB.bin and assign to temp list
-			tempPetList = (ArrayList<Pet>) objInput.readObject();
+			petList = (ArrayList<Pet>) objInput.readObject();
 			
 			// Loop through tempPetList, cast all objects to Pet, add to new displayList
-			for(int i =0; i < tempPetList.size(); i++) {
-				Pet pet = (Pet) tempPetList.get(i);
-				tempPetList.set(i, pet);
+			for(int i =0; i < petList.size(); i++) {
+				Pet pet = (Pet) petList.get(i);
+				petList.set(i, pet);
 			}
 			
 			// Close input streams
@@ -472,10 +490,10 @@ public class PetDatabase {
 		System.out.println("+-------------------------+");
 		
 		// Loop through list
-		for(int i = 0; i < tempPetList.size(); i++) {
+		for(int i = 0; i < petList.size(); i++) {
 			int id = i;
-			String name = tempPetList.get(i).name;
-			int age = tempPetList.get(i).age;
+			String name = petList.get(i).name;
+			int age = petList.get(i).age;
 			
 			if(age == searchAge) {
 				// Print formatted row
