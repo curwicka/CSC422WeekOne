@@ -141,27 +141,39 @@ public class PetDatabase {
 		
 		read();
 		
-		// Infinite loop to collect multiple pets
-		while(!petData.equalsIgnoreCase("done")) {
-			System.out.println("Add Pet (Name, Age): ");
-			petData = input.nextLine();
-			
-			if(!petData.equalsIgnoreCase("done")) {
-				// Parse input
-				String[] splitter;
-				String delimiter = " ";
-				splitter = petData.split(delimiter);
-				name = splitter[0];
-				age = Integer.parseInt(splitter[1]);
+		// Initial database size check
+		if(petList.size() > 4) {
+			System.out.println("Error: database is full.");
+		}
+		else {
+			// Infinite loop to collect multiple pets
+			while(!petData.equalsIgnoreCase("done")) {
+				System.out.println("Add Pet (Name, Age): ");
+				petData = input.nextLine();
 				
-				// Construct Pet object
-				Pet pet = new Pet(name, age);
-				
-				// Add Pet to list
-				petList.add(pet);
-			}
-			else {
-				break;
+				if(!petData.equalsIgnoreCase("done")) {
+					// Check size of database before adding
+					if(petList.size() > 4) {
+						System.out.println("Error: database is full.");
+					}
+					else {
+						// Parse input
+						String[] splitter;
+						String delimiter = " ";
+						splitter = petData.split(delimiter);
+						name = splitter[0];
+						age = Integer.parseInt(splitter[1]);
+						
+						// Construct Pet object
+						Pet pet = new Pet(name, age);
+						
+						// Add Pet to list
+						petList.add(pet);
+					}
+				}
+				else {
+					break;
+				}
 			}
 		}
 		
