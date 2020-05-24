@@ -113,9 +113,7 @@ public class PetDatabase {
 		read();
 		
 		// Header
-		System.out.println("+-------------------------+");
-		System.out.printf("| %-3s | %-10s | %-4s |%n", "ID", "NAME", "AGE");
-		System.out.println("+-------------------------+");
+		header();
 		
 		// Loop through list
 		for(int i = 0; i < petList.size(); i++) {
@@ -129,9 +127,7 @@ public class PetDatabase {
 		}
 		
 		// Footer
-		System.out.println("+-------------------------+");
-		System.out.println(count + " rows in set.");
-		System.out.println("\n");
+		footer(count);
 	}
 	
 	/**********************
@@ -184,9 +180,7 @@ public class PetDatabase {
 		read();
 		
 		// Header
-		System.out.println("+-------------------------+");
-		System.out.printf("| %-3s | %-10s | %-4s |%n", "ID", "NAME", "AGE");
-		System.out.println("+-------------------------+");
+		header();
 		
 		// Loop through list
 		for(int i = 0; i < petList.size(); i++) {
@@ -200,9 +194,7 @@ public class PetDatabase {
 		}
 		
 		// Footer
-		System.out.println("+-------------------------+");
-		System.out.println(count + " rows in set.");
-		System.out.println("\n");
+		footer(count);
 		
 		// Prompt for pet to update
 		System.out.println("Enter the ID of the pet you want to update: ");
@@ -245,9 +237,7 @@ public class PetDatabase {
 		read();
 		
 		// Header
-		System.out.println("+-------------------------+");
-		System.out.printf("| %-3s | %-10s | %-4s |%n", "ID", "NAME", "AGE");
-		System.out.println("+-------------------------+");
+		header();
 		
 		// Loop through list
 		for(int i = 0; i < petList.size(); i++) {
@@ -261,9 +251,7 @@ public class PetDatabase {
 		}
 		
 		// Footer
-		System.out.println("+-------------------------+");
-		System.out.println(count + " rows in set.");
-		System.out.println("\n");
+		footer(count);
 		
 		// Prompt for pet to remove
 		System.out.println("Enter the ID of the pet you wish to remove: ");
@@ -295,9 +283,7 @@ public class PetDatabase {
 		int count = 0;
 		
 		// Header
-		System.out.println("+-------------------------+");
-		System.out.printf("| %-3s | %-10s | %-4s |%n", "ID", "NAME", "AGE");
-		System.out.println("+-------------------------+");
+		header();
 		
 		// Loop through list
 		for(int i = 0; i < petList.size(); i++) {
@@ -313,9 +299,7 @@ public class PetDatabase {
 		}
 		
 		// Footer
-		System.out.println("+-------------------------+");
-		System.out.println(count + " rows in set.");
-		System.out.println("\n");
+		footer(count);
 	}
 	
 	/********************
@@ -333,9 +317,7 @@ public class PetDatabase {
 		int count = 0;
 		
 		// Header
-		System.out.println("+-------------------------+");
-		System.out.printf("| %-3s | %-10s | %-4s |%n", "ID", "NAME", "AGE");
-		System.out.println("+-------------------------+");
+		header();
 		
 		// Loop through list
 		for(int i = 0; i < petList.size(); i++) {
@@ -351,9 +333,7 @@ public class PetDatabase {
 		}
 		
 		// Footer
-		System.out.println("+-------------------------+");
-		System.out.println(count + " rows in set.");
-		System.out.println("\n");
+		footer(count);
 	}
 	
 	/*********************************
@@ -379,6 +359,7 @@ public class PetDatabase {
 			objInput.close();
 			file.close();
 		} catch(IOException ex) {
+			// For troubleshooting
 			//System.out.println("IOException caught.");
 			//ex.printStackTrace();
 		} catch(ClassNotFoundException ex) {
@@ -411,5 +392,24 @@ public class PetDatabase {
 			System.out.println("IO exception caught.");
 			ex.printStackTrace();
 		}
+	}
+	
+	/*******************************
+	 * Format and print table header
+	 *******************************/
+	public static void header() {
+		
+		System.out.println("+-------------------------+");
+		System.out.printf("| %-3s | %-10s | %-4s |%n", "ID", "NAME", "AGE");
+		System.out.println("+-------------------------+");
+	}
+	
+	/*******************************
+	 * Format and print table footer
+	 *******************************/
+	public static void footer(int count) {
+		System.out.println("+-------------------------+");
+		System.out.println(count + " rows in set.");
+		System.out.println("\n");
 	}
 }
