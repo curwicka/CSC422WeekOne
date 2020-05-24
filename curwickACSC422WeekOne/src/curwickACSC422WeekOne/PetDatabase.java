@@ -450,6 +450,9 @@ public class PetDatabase {
 		System.out.println("\n");
 	}
 	
+	/*******************************************
+	 * Validate input against regex for Name Age
+	 *******************************************/
 	public static boolean validate(String petData) {
 		String regex = "^[A-Z][a-z]+\\s[1-9][1-9]?$";
 		
