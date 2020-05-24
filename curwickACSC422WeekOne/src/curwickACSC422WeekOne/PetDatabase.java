@@ -143,6 +143,8 @@ public class PetDatabase {
 		String name;
 		int age;
 		
+		read();
+		
 		// Infinite loop to collect multiple pets
 		while(!petData.equalsIgnoreCase("done")) {
 			System.out.println("Add Pet (Name, Age): ");
@@ -167,25 +169,8 @@ public class PetDatabase {
 			}
 		}
 		
-		try {
-			// Clear contents of file to write new data
-			PrintWriter writer = new PrintWriter(fileName);
-			writer.close();
-			
-			// Output Streams for petDB.bin file
-			FileOutputStream file = new FileOutputStream(fileName);
-			ObjectOutputStream output = new ObjectOutputStream(file);
-			
-			// Write list to petDB.bin
-			output.writeObject(petList);
-			
-			// Close output streams
-			output.close();
-			file.close();
-		} catch(IOException ex) {
-			System.out.println("IO exception caught.");
-			ex.printStackTrace();
-		}
+		// Write to petDB.bin
+		write();
 	}
 	
 	/*****************
@@ -245,25 +230,8 @@ public class PetDatabase {
 		// Display changes
 		System.out.println(oldName + " " + oldAge + " changed to " + name + " " + age);
 		
-		try {
-			// Clear contents of file to write new data
-			PrintWriter writer = new PrintWriter(fileName);
-			writer.close();
-			
-			// Output Streams for petDB.bin file
-			FileOutputStream file = new FileOutputStream(fileName);
-			ObjectOutputStream output = new ObjectOutputStream(file);
-			
-			// Write list to petDB.bin
-			output.writeObject(petList);
-			
-			// Close output streams
-			output.close();
-			file.close();
-		} catch(IOException ex) {
-			System.out.println("IO exception caught.");
-			ex.printStackTrace();
-		}
+		// Write to petDB.bin
+		write();
 	}
 	
 	/**************************
@@ -309,25 +277,8 @@ public class PetDatabase {
 		petList.remove(selection);
 		System.out.println(name + " " + age + " has been removed.");
 		
-		try {
-			// Clear contents of file to write new data
-			PrintWriter writer = new PrintWriter(fileName);
-			writer.close();
-			
-			// Output Streams for petDB.bin file
-			FileOutputStream file = new FileOutputStream(fileName);
-			ObjectOutputStream output = new ObjectOutputStream(file);
-			
-			// Write list to petDB.bin
-			output.writeObject(petList);
-			
-			// Close output streams
-			output.close();
-			file.close();
-		} catch(IOException ex) {
-			System.out.println("IO exception caught.");
-			ex.printStackTrace();
-		}
+		// Write to petDB.bin
+		write();
 	}
 	
 	/*********************
@@ -428,10 +379,36 @@ public class PetDatabase {
 			objInput.close();
 			file.close();
 		} catch(IOException ex) {
-			System.out.println("IOException caught.");
-			ex.printStackTrace();
+			//System.out.println("IOException caught.");
+			//ex.printStackTrace();
 		} catch(ClassNotFoundException ex) {
 			System.out.println("ClassNotFoundException caught.");
+			ex.printStackTrace();
+		}
+	}
+	
+	/********************************
+	 * Write list object to petDB.bin
+	 ********************************/
+	public static void write() {
+		
+		try {
+			// Clear contents of file to write new data
+			PrintWriter writer = new PrintWriter(fileName);
+			writer.close();
+			
+			// Output Streams for petDB.bin file
+			FileOutputStream file = new FileOutputStream(fileName);
+			ObjectOutputStream output = new ObjectOutputStream(file);
+			
+			// Write list to petDB.bin
+			output.writeObject(petList);
+			
+			// Close output streams
+			output.close();
+			file.close();
+		} catch(IOException ex) {
+			System.out.println("IO exception caught.");
 			ex.printStackTrace();
 		}
 	}
