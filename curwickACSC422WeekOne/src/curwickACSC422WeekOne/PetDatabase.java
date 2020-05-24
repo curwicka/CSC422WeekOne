@@ -107,7 +107,7 @@ public class PetDatabase {
 	public static void display() {
 		int count = 0;
 		
-		try {
+		/*try {
 			// Input Streams for petDB.bin
 			FileInputStream file = new FileInputStream(fileName);
 			ObjectInputStream objInput = new ObjectInputStream(file);
@@ -130,7 +130,10 @@ public class PetDatabase {
 		} catch(ClassNotFoundException ex) {
 			System.out.println("ClassNotFoundException caught.");
 			ex.printStackTrace();
-		}
+		}*/
+		
+		// Read from petDB.bin
+		read();
 		
 		// Header
 		System.out.println("+-------------------------+");
@@ -213,7 +216,7 @@ public class PetDatabase {
 	public static void update() {
 		int count = 0;
 		
-		try {
+		/*try {
 			// Input Streams for petDB.bin
 			FileInputStream file = new FileInputStream(fileName);
 			ObjectInputStream objInput = new ObjectInputStream(file);
@@ -236,7 +239,10 @@ public class PetDatabase {
 		} catch(ClassNotFoundException ex) {
 			System.out.println("ClassNotFoundException caught.");
 			ex.printStackTrace();
-		}
+		}*/
+		
+		// Read from petDB.bin
+		read();
 		
 		// Header
 		System.out.println("+-------------------------+");
@@ -312,7 +318,7 @@ public class PetDatabase {
 	public static void remove() {
 		int count = 0;
 
-		try {
+		/*try {
 			// Input Streams for petDB.bin
 			FileInputStream file = new FileInputStream(fileName);
 			ObjectInputStream objInput = new ObjectInputStream(file);
@@ -335,7 +341,10 @@ public class PetDatabase {
 		} catch(ClassNotFoundException ex) {
 			System.out.println("ClassNotFoundException caught.");
 			ex.printStackTrace();
-		}
+		}*/
+		
+		// Read from petDB.bin
+		read();
 		
 		// Header
 		System.out.println("+-------------------------+");
@@ -395,7 +404,7 @@ public class PetDatabase {
 	 * Search pets by name
 	 *********************/
 	public static void nameSearch() {
-		try {
+		/*try {
 			// Input Streams for petDB.bin
 			FileInputStream file = new FileInputStream(fileName);
 			ObjectInputStream objInput = new ObjectInputStream(file);
@@ -418,7 +427,10 @@ public class PetDatabase {
 		} catch(ClassNotFoundException ex) {
 			System.out.println("ClassNotFoundException caught.");
 			ex.printStackTrace();
-		}
+		}*/
+		
+		// Read from petDB.bin
+		read();
 		
 		// Prompt for search parameter
 		System.out.println("Enter name to search: ");
@@ -453,7 +465,7 @@ public class PetDatabase {
 	 * Search pets by age
 	 ********************/
 	public static void ageSearch() {
-		try {
+		/*try {
 			// Input Streams for petDB.bin
 			FileInputStream file = new FileInputStream(fileName);
 			ObjectInputStream objInput = new ObjectInputStream(file);
@@ -476,7 +488,10 @@ public class PetDatabase {
 		} catch(ClassNotFoundException ex) {
 			System.out.println("ClassNotFoundException caught.");
 			ex.printStackTrace();
-		}
+		}*/
+		
+		// Read from petDB.bin
+		read();
 		
 		// Prompt for search parameter
 		System.out.println("Enter age to search: ");
@@ -506,5 +521,35 @@ public class PetDatabase {
 		System.out.println("+-------------------------+");
 		System.out.println(count + " rows in set.");
 		System.out.println("\n");
+	}
+	
+	/*********************************
+	 * Read list object from petDB.bin
+	 *********************************/
+	public static void read() {
+		try {
+			// Input Streams for petDB.bin
+			FileInputStream file = new FileInputStream(fileName);
+			ObjectInputStream objInput = new ObjectInputStream(file);
+			
+			// Read petList from petDB.bin and assign to temp list
+			petList = (ArrayList<Pet>) objInput.readObject();
+			
+			// Loop through tempPetList, cast all objects to Pet, add to new displayList
+			for(int i =0; i < petList.size(); i++) {
+				Pet pet = (Pet) petList.get(i);
+				petList.set(i, pet);
+			}
+			
+			// Close input streams
+			objInput.close();
+			file.close();
+		} catch(IOException ex) {
+			System.out.println("IOException caught.");
+			ex.printStackTrace();
+		} catch(ClassNotFoundException ex) {
+			System.out.println("ClassNotFoundException caught.");
+			ex.printStackTrace();
+		}
 	}
 }
