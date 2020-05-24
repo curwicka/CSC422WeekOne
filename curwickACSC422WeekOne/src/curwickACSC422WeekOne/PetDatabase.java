@@ -113,9 +113,7 @@ public class PetDatabase {
 		read();
 		
 		// Header
-		System.out.println("+-------------------------+");
-		System.out.printf("| %-3s | %-10s | %-4s |%n", "ID", "NAME", "AGE");
-		System.out.println("+-------------------------+");
+		header();
 		
 		// Loop through list
 		for(int i = 0; i < petList.size(); i++) {
@@ -129,9 +127,7 @@ public class PetDatabase {
 		}
 		
 		// Footer
-		System.out.println("+-------------------------+");
-		System.out.println(count + " rows in set.");
-		System.out.println("\n");
+		footer(count);
 	}
 	
 	/**********************
@@ -145,27 +141,45 @@ public class PetDatabase {
 		
 		read();
 		
-		// Infinite loop to collect multiple pets
-		while(!petData.equalsIgnoreCase("done")) {
-			System.out.println("Add Pet (Name, Age): ");
-			petData = input.nextLine();
-			
-			if(!petData.equalsIgnoreCase("done")) {
-				// Parse input
-				String[] splitter;
-				String delimiter = " ";
-				splitter = petData.split(delimiter);
-				name = splitter[0];
-				age = Integer.parseInt(splitter[1]);
+		// Initial database size check
+		if(petList.size() > 4) {
+			System.out.println("Error: database is full.");
+		}
+		else {
+			// Infinite loop to collect multiple pets
+			while(!petData.equalsIgnoreCase("done")) {
+				System.out.println("Add Pet (Name, Age): ");
+				petData = input.nextLine();
 				
-				// Construct Pet object
-				Pet pet = new Pet(name, age);
-				
-				// Add Pet to list
-				petList.add(pet);
-			}
-			else {
-				break;
+				if(!petData.equalsIgnoreCase("done")) {
+					// Check size of database before adding
+					if(petList.size() > 4) {
+						System.out.println("Error: database is full.");
+					}
+					else {
+						// Parse input
+						String[] splitter;
+						String delimiter = " ";
+						splitter = petData.split(delimiter);
+						name = splitter[0];
+						age = Integer.parseInt(splitter[1]);
+						
+						// Check age (0-20 valid)
+						if(age > 20 || age < 0) {
+							System.out.println("Error: Pets must be between 0 and 20 years old.");
+						}
+						else {
+							// Construct Pet object
+							Pet pet = new Pet(name, age);
+							
+							// Add Pet to list
+							petList.add(pet);
+						}
+					}
+				}
+				else {
+					break;
+				}
 			}
 		}
 		
@@ -184,9 +198,7 @@ public class PetDatabase {
 		read();
 		
 		// Header
-		System.out.println("+-------------------------+");
-		System.out.printf("| %-3s | %-10s | %-4s |%n", "ID", "NAME", "AGE");
-		System.out.println("+-------------------------+");
+		header();
 		
 		// Loop through list
 		for(int i = 0; i < petList.size(); i++) {
@@ -200,9 +212,7 @@ public class PetDatabase {
 		}
 		
 		// Footer
-		System.out.println("+-------------------------+");
-		System.out.println(count + " rows in set.");
-		System.out.println("\n");
+		footer(count);
 		
 		// Prompt for pet to update
 		System.out.println("Enter the ID of the pet you want to update: ");
@@ -245,9 +255,7 @@ public class PetDatabase {
 		read();
 		
 		// Header
-		System.out.println("+-------------------------+");
-		System.out.printf("| %-3s | %-10s | %-4s |%n", "ID", "NAME", "AGE");
-		System.out.println("+-------------------------+");
+		header();
 		
 		// Loop through list
 		for(int i = 0; i < petList.size(); i++) {
@@ -261,9 +269,7 @@ public class PetDatabase {
 		}
 		
 		// Footer
-		System.out.println("+-------------------------+");
-		System.out.println(count + " rows in set.");
-		System.out.println("\n");
+		footer(count);
 		
 		// Prompt for pet to remove
 		System.out.println("Enter the ID of the pet you wish to remove: ");
@@ -295,9 +301,7 @@ public class PetDatabase {
 		int count = 0;
 		
 		// Header
-		System.out.println("+-------------------------+");
-		System.out.printf("| %-3s | %-10s | %-4s |%n", "ID", "NAME", "AGE");
-		System.out.println("+-------------------------+");
+		header();
 		
 		// Loop through list
 		for(int i = 0; i < petList.size(); i++) {
@@ -313,9 +317,7 @@ public class PetDatabase {
 		}
 		
 		// Footer
-		System.out.println("+-------------------------+");
-		System.out.println(count + " rows in set.");
-		System.out.println("\n");
+		footer(count);
 	}
 	
 	/********************
@@ -333,9 +335,7 @@ public class PetDatabase {
 		int count = 0;
 		
 		// Header
-		System.out.println("+-------------------------+");
-		System.out.printf("| %-3s | %-10s | %-4s |%n", "ID", "NAME", "AGE");
-		System.out.println("+-------------------------+");
+		header();
 		
 		// Loop through list
 		for(int i = 0; i < petList.size(); i++) {
@@ -351,9 +351,7 @@ public class PetDatabase {
 		}
 		
 		// Footer
-		System.out.println("+-------------------------+");
-		System.out.println(count + " rows in set.");
-		System.out.println("\n");
+		footer(count);
 	}
 	
 	/*********************************
@@ -379,6 +377,7 @@ public class PetDatabase {
 			objInput.close();
 			file.close();
 		} catch(IOException ex) {
+			// For troubleshooting
 			//System.out.println("IOException caught.");
 			//ex.printStackTrace();
 		} catch(ClassNotFoundException ex) {
@@ -411,5 +410,24 @@ public class PetDatabase {
 			System.out.println("IO exception caught.");
 			ex.printStackTrace();
 		}
+	}
+	
+	/*******************************
+	 * Format and print table header
+	 *******************************/
+	public static void header() {
+		
+		System.out.println("+-------------------------+");
+		System.out.printf("| %-3s | %-10s | %-4s |%n", "ID", "NAME", "AGE");
+		System.out.println("+-------------------------+");
+	}
+	
+	/*******************************
+	 * Format and print table footer
+	 *******************************/
+	public static void footer(int count) {
+		System.out.println("+-------------------------+");
+		System.out.println(count + " rows in set.");
+		System.out.println("\n");
 	}
 }
