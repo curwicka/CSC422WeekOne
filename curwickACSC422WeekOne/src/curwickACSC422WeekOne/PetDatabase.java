@@ -107,27 +107,14 @@ public class PetDatabase {
 	 *********************************/
 	public static void display() {
 		
-		int count = 0;
-		
 		// Read from petDB.bin
 		read();
 		
 		// Header
 		header();
 		
-		// Loop through list
-		for(int i = 0; i < petList.size(); i++) {
-			int id = i;
-			String name = petList.get(i).name;
-			int age = petList.get(i).age;
-			count++;
-			
-			// Print formatted row
-			System.out.printf("| %-3d | %-10s | %-4d |%n", id, name, age);
-		}
-		
-		// Footer
-		footer(count);
+		// Generate table and footer
+		table(petList);
 	}
 	
 	/**********************
@@ -199,27 +186,14 @@ public class PetDatabase {
 	 *****************/
 	public static void update() {
 		
-		int count = 0;
-		
 		// Read from petDB.bin
 		read();
 		
 		// Header
 		header();
 		
-		// Loop through list
-		for(int i = 0; i < petList.size(); i++) {
-			int id = i;
-			String name = petList.get(i).name;
-			int age = petList.get(i).age;
-			count++;
-			
-			// Print formatted row
-			System.out.printf("| %-3d | %-10s | %-4d |%n", id, name, age);
-		}
-		
-		// Footer
-		footer(count);
+		// Generate table and footer
+		table(petList);
 		
 		// Prompt for pet to update
 		System.out.println("Enter the ID of the pet you want to update: ");
@@ -267,8 +241,6 @@ public class PetDatabase {
 	 * Remove pet from database
 	 **************************/
 	public static void remove() {
-		
-		int count = 0;
 
 		// Read from petDB.bin
 		read();
@@ -276,19 +248,8 @@ public class PetDatabase {
 		// Header
 		header();
 		
-		// Loop through list
-		for(int i = 0; i < petList.size(); i++) {
-			int id = i;
-			String name = petList.get(i).name;
-			int age = petList.get(i).age;
-			count++;
-			
-			// Print formatted row
-			System.out.printf("| %-3d | %-10s | %-4d |%n", id, name, age);
-		}
-		
-		// Footer
-		footer(count);
+		// Generate table and footer
+		table(petList);
 		
 		// Prompt for pet to remove
 		System.out.println("Enter the ID of the pet you wish to remove: ");
@@ -439,6 +400,27 @@ public class PetDatabase {
 		System.out.println("+-------------------------+");
 		System.out.printf("| %-3s | %-10s | %-4s |%n", "ID", "NAME", "AGE");
 		System.out.println("+-------------------------+");
+	}
+	
+	/*****************************
+	 * Format and print table body
+	 *****************************/
+	public static void table(List<Pet> petList) {
+		
+		int count = 0;
+		
+		// Loop through list
+		for(int i = 0; i < petList.size(); i++) {
+			int id = i;
+			String name = petList.get(i).name;
+			int age = petList.get(i).age;
+			count++;
+					
+			// Print formatted row
+			System.out.printf("| %-3d | %-10s | %-4d |%n", id, name, age);
+		}
+		
+		footer(count);
 	}
 	
 	/*******************************
