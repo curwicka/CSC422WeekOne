@@ -157,23 +157,30 @@ public class PetDatabase {
 						System.out.println("Error: database is full.");
 					}
 					else {
-						// Parse input
-						String[] splitter;
-						String delimiter = " ";
-						splitter = petData.split(delimiter);
-						name = splitter[0];
-						age = Integer.parseInt(splitter[1]);
 						
-						// Check age (0-20 valid)
-						if(age > 20 || age < 0) {
-							System.out.println("Error: Pets must be between 0 and 20 years old.");
+						// Validate pet data against regex for valid input (Name Age)
+						if(!validate(petData)) {
+							System.out.println("Error: " + petData + " is not valid. Please use the following format: Name Age");
 						}
 						else {
-							// Construct Pet object
-							Pet pet = new Pet(name, age);
+							// Parse input
+							String[] splitter;
+							String delimiter = " ";
+							splitter = petData.split(delimiter);
+							name = splitter[0];
+							age = Integer.parseInt(splitter[1]);
 							
-							// Add Pet to list
-							petList.add(pet);
+							// Check age (0-20 valid)
+							if(age > 20 || age < 0) {
+								System.out.println("Error: Pets must be between 0 and 20 years old.");
+							}
+							else {
+								// Construct Pet object
+								Pet pet = new Pet(name, age);
+								
+								// Add Pet to list
+								petList.add(pet);
+							}
 						}
 					}
 				}
@@ -226,19 +233,31 @@ public class PetDatabase {
 		System.out.println("Enter new name and age of pet: ");
 		String petData = input.nextLine();
 		
-		// Parse input
-		String[] splitter;
-		String delimiter = " ";
-		splitter = petData.split(delimiter);
-		String name = splitter[0];
-		int age = Integer.parseInt(splitter[1]);
-		
-		// Update Pet object
-		updatePet.setName(name);
-		updatePet.setAge(age);
-		
-		// Display changes
-		System.out.println(oldName + " " + oldAge + " changed to " + name + " " + age);
+		// Validate new pet data against regex for valid input (Name Age)
+		if(!validate(petData)) {
+			System.out.println("Error: " + petData + " is not valid. Please use the following format: Name Age");
+		}
+		else {
+			// Parse input
+			String[] splitter;
+			String delimiter = " ";
+			splitter = petData.split(delimiter);
+			String name = splitter[0];
+			int age = Integer.parseInt(splitter[1]);
+			
+			// Check age (0-20 valid)
+			if(age > 20 || age < 0) {
+				System.out.println("Error: Pets must be between 0 and 20 years old.");
+			}
+			else {
+				// Update Pet object
+				updatePet.setName(name);
+				updatePet.setAge(age);
+				
+				// Display changes
+				System.out.println(oldName + " " + oldAge + " changed to " + name + " " + age);
+			}
+		}
 		
 		// Write to petDB.bin
 		write();
@@ -429,5 +448,12 @@ public class PetDatabase {
 		System.out.println("+-------------------------+");
 		System.out.println(count + " rows in set.");
 		System.out.println("\n");
+	}
+	
+	public static boolean validate(String petData) {
+		String regex = "^[A-Z][a-z]+\\s[1-9][1-9]?$";
+		
+		// Return petData check against regex
+		return petData.matches(regex);
 	}
 }
