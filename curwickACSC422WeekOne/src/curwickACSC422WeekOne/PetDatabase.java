@@ -164,11 +164,17 @@ public class PetDatabase {
 						name = splitter[0];
 						age = Integer.parseInt(splitter[1]);
 						
-						// Construct Pet object
-						Pet pet = new Pet(name, age);
-						
-						// Add Pet to list
-						petList.add(pet);
+						// Check age (0-20 valid)
+						if(age > 20 || age < 0) {
+							System.out.println("Error: Pets must be between 0 and 20 years old.");
+						}
+						else {
+							// Construct Pet object
+							Pet pet = new Pet(name, age);
+							
+							// Add Pet to list
+							petList.add(pet);
+						}
 					}
 				}
 				else {
